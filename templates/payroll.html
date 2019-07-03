@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payrolls</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Generate Payroll
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Generating {{ mfanyikazi.name }}'s payroll </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="/generate/{{ mfanyikazi.id }}" method = "POST">
+              <label for = "month">Month</label>
+              <select name="month" class="form-control">
+                  <option value="january"> January</option>
+                  <option value="february"> February</option>
+                  <option value="march"> March</option>
+                  <option value="april"> April</option>
+                  <option value="may"> May</option>
+                  <option value="june"> June</option>
+                  <option value="july"> July</option>
+                  <option value="august"> August</option>
+                  <option value="september">September</option>
+                  <option value="october">October</option>
+                  <option value="november">November</option>
+                  <option value="december">December</option>
+              </select>
+              <label for ="year"> Year </label>
+              <input name="year" required type="text" class="form-control" placeholder="Enter year" >
+
+              <label for="overtime">Overtime</label>
+              <input name="overtime" type="text" class="form-control" value="0" >
+              <br/>
+              <input type="submit" class="btn btn-primary">
+
+          </form>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end of modal -->
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Month</th>
+      <th scope="col">Gross Salary</th>
+      <th scope="col">Payee</th>
+      <th scope="col">NHIF</th>
+      <th scope="col">NSSF</th>
+      <th scope="col">Personal Relief</th>
+      <th scope="col">Sacco Contribution</th>
+      <th scope="col">Pension</th>
+      <th scope="col">Net Salary</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for each in mfanyikazi.payrolls %}
+    <tr>
+      <th scope="row">{{ each.id }}</th>
+      <td>{{ each.month }}</td>
+      <td>{{ each.gross_salary }}</td>
+      <td>{{ each.payee }}</td>
+      <td>{{ each.nhif }}</td>
+      <td>{{ each.nssf }}</td>
+      <td>{{ each.personal_relief }}</td>
+      <td>{{ each.sacco_contribution }}</td>
+      <td>{{ each.pension }}</td>
+      <td>{{ each.net_salary }}</td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

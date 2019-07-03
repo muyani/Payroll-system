@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Letina Payroll System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+        <div class="alert alert-warning" role="alert">
+  <li class>{{ message }}</li>
+</div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<body>
+
+
+
+
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newemployeeModal">
+  Add a new Employee
+</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="newemployeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="/newemployee" method="post">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input name="name" required type="text" class="form-control" id="name"
+                         placeholder="enter employee's name">
+              </div>
+
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <input name="email" required type="email" class="form-control" id="email"
+                         placeholder="employee's email">
+              </div>
+
+              <div class="form-group">
+                  <label for="kra">KRA PIN</label>
+                  <input name="kra" type="text" class="form-control" id="kra" placeholder="employee's KRA PIN">
+              </div>
+
+              <div class="form-group">
+                  <label for="basic">Basic Salary</label>
+                  <input required name="basic" type="number" class="form-control" id="basic"
+                         placeholder="employee's Basic Salary">
+              </div>
+
+              <div class="form-group">
+                  <label for="benefits">Benefits</label>
+                  <input required name="benefits" type="number" class="form-control" id="benefits"
+                         placeholder="employee's Benefits">
+              </div>
+
+
+              <div class="form-group">
+                  <input type="submit" class="form-control btn btn-primary">
+              </div>
+
+
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end of modal -->
+
+
+<!--   Start of table -->
+
+<table class="table table-responsive">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Employees Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Kra Pin</th>
+      <th scope="col">Hired Date</th>
+      <th scope="col">Basic Salary</th>
+      <th scope="col">Benefits</th>
+      <th scope="col">Payrolls</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for each in wafanyikazi  %}
+    <tr>
+      <th scope="row">{{ each.id }}</th>
+      <td>{{ each.name }}</td>
+      <td>{{ each.email }}</td>
+      <td>{{ each.kra_pin }}</td>
+      <td>{{ each.hired_date }}</td>
+      <td>{{ each.basic_salary }}</td>
+      <td>{{ each.benefits }}</td>
+        <td><a href="/payrolls/{{ each.id }}"><button class="btn btn-primary">Payrolls </button></a> </td>
+        <td>
+        <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{ each.id }}">
+  Edit
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modal{{ each.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit {{ each.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <form action="/editemployee/{{ each.id }}" method="post">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input value="{{ each.name }}" name="name" required  type="text" class="form-control" id="name" placeholder="enter employee's name">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input value="{{ each.email }}" name="email" required type="email" class="form-control" id="email" placeholder="employee's email">
+  </div>
+
+      <div class="form-group">
+    <label for="kra">KRA PIN</label>
+    <input value="{{ each.kra_pin }}" name="kra" type="text" class="form-control" id="kra" placeholder="employee's KRA PIN">
+  </div>
+
+      <div class="form-group">
+    <label for="basic">Basic Salary</label>
+    <input value="{{ each.basic_salary }}" required name="basic" type="number" class="form-control" id="basic" placeholder="employee's Basic Salary">
+  </div>
+
+      <div class="form-group">
+    <label for="benefits">Benefits</label>
+    <input value="{{ each.benefits }}" required name="benefits" type="number" class="form-control" id="benefits" placeholder="employee's Benefits">
+  </div>
+
+
+      <div class="form-group">
+    <input type="submit" class="form-control btn btn-primary" >
+  </div>
+
+
+
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </td>
+        <td><a href="/delete/{{ each.id }}"><button class="btn btn-danger">Delete  </button></a> </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
